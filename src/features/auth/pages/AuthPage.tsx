@@ -17,6 +17,16 @@ const AuthPage: React.FC<{ mode: 'login' | 'register' }> = ({ mode }) => {
     const [otp, setOtp] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
+    const showLoginError = new URLSearchParams(location.search).get('error') === 'true';
+
+    const handleGoogleOAuth = () => {
+        window.location.href = 'http://localhost:8080/oauth2/authorization/google'; // Redirect to your backend's Google OAuth endpoint
+    };
+
+    const handleGithubOAuth = () => {
+        window.location.href = 'http://localhost:8080/oauth2/authorization/github'; // Redirect to your backend's GitHub OAuth endpoint
+    };
+
     const handleEmailVerification = async () => {
         try {
             console.log("calling: authApi.verifyEmail");
@@ -162,7 +172,15 @@ const AuthPage: React.FC<{ mode: 'login' | 'register' }> = ({ mode }) => {
             case 'verify-email':
                 return (
                     <div>
+                        {showLoginError && (
+                        <p style={{ color: 'red', marginBottom: '1em' }}>
+                            We encountered an issue while logging you in. Please try again.
+                        </p>
+                        )}
                         <h2>{mode === 'login' ? 'Login to App' : 'Register to App'}</h2>
+                        <button onClick={handleGoogleOAuth}>Continue with Google</button>
+                        <button onClick={handleGithubOAuth}>Continue with GitHub</button>
+                        <p>OR</p>
                         <input
                             type="email"
                             value={email}
@@ -176,6 +194,9 @@ const AuthPage: React.FC<{ mode: 'login' | 'register' }> = ({ mode }) => {
             case 'login-password':
                 return (
                     <div>
+                        <button onClick={handleGoogleOAuth}>Continue with Google</button>
+                        <button onClick={handleGithubOAuth}>Continue with GitHub</button>
+                        <p>OR</p>
                         <input
                             type="email"
                             value={email}
@@ -203,6 +224,9 @@ const AuthPage: React.FC<{ mode: 'login' | 'register' }> = ({ mode }) => {
             case 'otp':
                 return (
                     <div>
+                        <button onClick={handleGoogleOAuth}>Continue with Google</button>
+                        <button onClick={handleGithubOAuth}>Continue with GitHub</button>
+                        <p>OR</p>
                         <input
                             type="email"
                             value={email}
@@ -230,6 +254,9 @@ const AuthPage: React.FC<{ mode: 'login' | 'register' }> = ({ mode }) => {
             case 'reset-password':
                 return (
                     <div>
+                        <button onClick={handleGoogleOAuth}>Continue with Google</button>
+                        <button onClick={handleGithubOAuth}>Continue with GitHub</button>
+                        <p>OR</p>
                         <input
                             type="email"
                             value={email}
@@ -258,6 +285,9 @@ const AuthPage: React.FC<{ mode: 'login' | 'register' }> = ({ mode }) => {
             case 'register':
                 return(
                     <div>
+                        <button onClick={handleGoogleOAuth}>Continue with Google</button>
+                        <button onClick={handleGithubOAuth}>Continue with GitHub</button>
+                        <p>OR</p>
                         <input
                             type="email"
                             value={email}
